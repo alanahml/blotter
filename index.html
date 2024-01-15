@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/blotter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/materials/channelSplitMaterial.js"></script>
+</head>
+<body>
+
+    <div id="text-wrap">
+        <div id="title-text"></div>
+    </div>
+    <div id="text-wrap2">
+        <div id="title-text2"></div>
+    </div>
+
+   
+
+    <script>
+
+    function drawText() {
+
+        let innerText = document.getElementById("title-text2");
+        let text = new Blotter.Text("\xa0\xa0\xa0"+"DAY"+"\xa0", {
+            family: "Raygun",
+            size: 150,
+            fill: "black",
+            paddingLeft: 20,
+            paddingTop: 80,
+            paddingBottom: 80,
+        });
+        let material = new Blotter.ChannelSplitMaterial();
+        material.uniforms.uOffset.value=0.06;
+        material.uniforms.uRotation.value=40;
+        material.uniforms.uAnimateNoise.value=1;
+        material.uniforms.uApplyBlur.value=1;
+
+        // material.uniforms.uVolatility.value=0.3;
+        // material.uniforms.uSpped.value=0.7;
+        // material.uniforms.uSeed.value=5;
+
+        //blotter material page
+
+        let blotter = new Blotter(material, {
+            texts: text
+        })
+        let scope = blotter.forText(text);
+        scope.appendTo(innerText);
+        let offsetTarget;
+        let rotationTarget;
+        document.addEventListener("mousemove", e => {
+            let normalized = {
+                x: e.clientX - window.innerWidth / 2,
+                y: e.clientY - window.innerHeight / 2
+            }
+
+            let angle = Math.atan(-normalized.x / normalized.y) * 180 / Math.PI
+            offsetTarget = Math.abs(normalized.x * 0.0005);
+            rotationTarget = angle*-2;
+        })
+
+        function ease() {
+            let deltaOffset = (offsetTarget - material.uniforms.uOffset.value) / 3
+            material.uniforms.uOffset.value += deltaOffset;
+            let deltaRotation = (rotationTarget - material.uniforms.uRotation.value) / 3
+            material.uniforms.uRotation.value += deltaRotation;
+            requestAnimationFrame(ease)
+        }
+        ease()
+
+        }
+    
+
+
+    function drawText2() {
+        var innerText = document.getElementById("title-text2");
+        var text2 = new Blotter.Text("\xa0\xa0"+"DREAM"+"\xa0\xa0", {
+            family: "Raygun",
+            size: 200,
+            fill: "white",
+            paddingLeft: 20,
+            paddingTop: 80,
+            paddingBottom: 80,
+        });
+
+        var material = new Blotter.ChannelSplitMaterial();
+        material.uniforms.uOffset.value=0.06;
+        material.uniforms.uRotation.value=264;
+        material.uniforms.uAnimateNoise.value=1;
+        material.uniforms.uApplyBlur.value=1;
+
+        // material.uniforms.uVolatility.value=0.3;
+        // material.uniforms.uSpped.value=0.7;
+        // material.uniforms.uSeed.value=5;
+
+        //blotter material page
+
+        let blotter = new Blotter(material, {
+            texts: text2
+        })
+        let scope = blotter.forText(text2);
+        scope.appendTo(innerText);
+        let offsetTarget;
+        let rotationTarget;
+        document.addEventListener("mousemove", e => {
+            let normalized = {
+                x: e.clientX - window.innerWidth / 2,
+                y: e.clientY - window.innerHeight / 2
+            }
+
+            //let angle = Math.atan(-normalized.x / normalized.y) * 180 / Math.PI
+            offsetTarget = Math.abs(normalized.x * 0.0002);
+            rotationTarget = -192;
+        })
+
+        function ease() {
+            let deltaOffset = (offsetTarget - material.uniforms.uOffset.value) / 3
+            material.uniforms.uOffset.value += deltaOffset;
+            let deltaRotation = (rotationTarget - material.uniforms.uRotation.value) / 3
+            material.uniforms.uRotation.value += deltaRotation;
+            requestAnimationFrame(ease)
+        }
+        ease()
+    }
+    drawText();
+    drawText2();
+
+
+    </script>
+    
+</body>
+</html>
